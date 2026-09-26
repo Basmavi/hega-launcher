@@ -1,0 +1,21 @@
+name: Build APK
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Zip'i aç
+        run: unzip HegaLauncher.zip
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v3
+      - name: Derle
+        working-directory: HegaLauncher
+        run: gradle assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: HegaLauncher/app/build/outputs/apk/debug/app-debug.apk
